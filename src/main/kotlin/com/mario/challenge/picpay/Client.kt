@@ -1,6 +1,10 @@
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 
 @Entity(name = "users")
-public class Client {
-
+@Table(name = "users")
+class Client(
+        var amount: Long,
+        @Id
+        @GeneratedValue(strategy = GenerationType.UUID)
+        private var id: String) {
 }
