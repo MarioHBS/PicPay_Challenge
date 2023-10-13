@@ -15,6 +15,6 @@ class Transactions(
 	private var amount: BigDecimal = BigDecimal.ZERO,
 	@ManyToOne @JoinColumn(name = "sender_id") private var sender: Client = Client(),
 	@ManyToOne @JoinColumn(name = "receiver_id") private var receiver: Client = Client(),
-	private var timestamp: LocalDateTime = LocalDateTime.MIN,
+	private var timestamp: LocalDateTime = LocalDateTime.now(),
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private val id: Long = 0L,
 )
