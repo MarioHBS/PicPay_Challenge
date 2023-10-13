@@ -18,7 +18,7 @@ class Client(
     @Enumerated(EnumType.STRING) var userType: UserType = UserType.COMMON,
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private var id: String = ""
+    var id: String = ""
 ) {
     companion object {
         fun from(dto: ClientDTO) =
