@@ -9,7 +9,6 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.RequestEntity
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.math.BigDecimal
@@ -35,9 +34,15 @@ class TransactionService(
 			throw Exception("Transação não autorizada")
 		}
 
-		val transactions = Transactions(transaction.value, sender, receiver)
+		val operation = Transactions(transaction.value, sender, receiver)
 
-		sender.balance -= transaction.value
+		transaction.value.let {
+			sender.balance -= it
+			receiver.balance += it
+		}
+		repository.save(operation)
+		userService.saveClient(sender)
+		userService.saveClient(receiver)
 	}
 
 	fun authorizeTransaction(user: Client, value: BigDecimal): Boolean {

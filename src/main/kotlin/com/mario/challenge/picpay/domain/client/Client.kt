@@ -18,5 +18,4 @@ class Client(
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private var id: String = ""
-) {
-}
+)
