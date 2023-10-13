@@ -4,6 +4,7 @@ import com.mario.challenge.picpay.domain.client.Client
 import com.mario.challenge.picpay.domain.transaction.Transactions
 import com.mario.challenge.picpay.dtos.TransactionDTO
 import com.mario.challenge.picpay.repositories.TransactionRepository
+import com.mario.challenge.picpay.util.typeRef
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
@@ -46,13 +47,7 @@ class TransactionService(
 	}
 
 	fun authorizeTransaction(user: Client, value: BigDecimal): Boolean {
-//		val ref = Map::class.java
-//		restTemplate.exchange(, typeRef<List<String>>())
 		val request = RequestEntity<Map<String, String>>(HttpMethod.GET, URI.create(url))
-		val respType = object : ParameterizedTypeReference<Map<String, String>>() {}
-//		val response = restTemplate.exchange()
-//		 restTemplate.getForEntity(URI.create(url), ResponseEntity<Map>::class.java)
-//		val authorizationResponse = restTemplate.getForObject(URI(url), Map::class.java)
 		val authorizationResponse = restTemplate.exchange(request, typeRef<Map<String, String>>())
 
 		if (authorizationResponse.statusCode == HttpStatus.OK) {
@@ -62,5 +57,3 @@ class TransactionService(
 		return false
 	}
 }
-
-inline fun <reified T : Any> typeRef(): ParameterizedTypeReference<T> = object : ParameterizedTypeReference<T>() {}
